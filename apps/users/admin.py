@@ -23,7 +23,7 @@ class UserAdmin(admin.ModelAdmin):
    change_user_password_template = None
    fieldsets = (
       (None, {"fields": ("email", "password")}),
-      ("Personal info", {"fields": ("name",)}),
+      ("Personal info", {"fields": ("name", 'photo')}),
       ("Permissions",
          {
             "fields": (
