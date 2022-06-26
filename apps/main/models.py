@@ -39,16 +39,26 @@ class Alumn(Model):
       verbose_name = 'Alumno'
       verbose_name_plural = 'Alumnos'
 
+   def __str__(self):
+      return self.user.name
+   
+   def get_email(self):
+      return self.user.email
+
 class Company(Model):
    user = OneToOneField(User, on_delete=CASCADE)
    birthday = DateField("Fecha de nacimiento", null=True, blank=True)
    country = CharField("País", max_length=55, null=True)
    address = CharField("Dirección", max_length=255, null=True)
 
+   def __str__(self):
+      return self.user.name
+
    class Meta:
       db_table = 'COMPANY'
       verbose_name = 'Compañia'
       verbose_name_plural = 'Compañias'
+   
 
 class Job(Model):
    id_company = ForeignKey(Company, on_delete=CASCADE)
@@ -61,6 +71,9 @@ class Job(Model):
    status = CharField('Estado', max_length=10, choices=status_choices, default='active', null=False)
    created_at = DateTimeField(auto_now_add=True, auto_now=False, verbose_name='Fecha de creación')
    updated_at = DateTimeField(auto_now_add=False, auto_now=True, verbose_name='Fecha de modificaón')
+
+   def __str__(self):
+      return f'{self.id_company.__str__()} - {self.title}'
 
    class Meta:
       db_table = 'JOB'
@@ -76,3 +89,6 @@ class Applications(Model):
    interview_date = DateTimeField(verbose_name='Fecha para entrevista')
    created_at = DateTimeField(auto_now_add=True, auto_now=False, verbose_name='Fecha de creación')
    updated_at = DateTimeField(auto_now_add=False, auto_now=True, verbose_name='Fecha de modificaón')
+
+   def __str__(self):
+      return f'{self.id_job.title} - {self.id_alumn.__str__()}'

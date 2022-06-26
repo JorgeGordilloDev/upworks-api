@@ -27,7 +27,6 @@ class UserAdmin(admin.ModelAdmin):
       ("Permissions",
          {
             "fields": (
-               "is_active",
                "is_staff",
                "role",
                "status",
@@ -50,11 +49,12 @@ class UserAdmin(admin.ModelAdmin):
    form = UserChangeForm
    add_form = UserCreationForm
    change_password_form = AdminPasswordChangeForm
-   list_display = ("email", "name", "is_staff")
-   list_filter = ("is_staff", "is_superuser", "is_active")
+   list_display = ('id', "email", "name", 'role', 'status')
+   list_display_links = ('email',)
+   list_filter = ("role", "status")
    search_fields = ("name", "email")
    readonly_fields = ("created_at",)
-   ordering = ("email",)
+   actions = None
    filter_horizontal = ()
 
    def get_fieldsets(self, request, obj=None):

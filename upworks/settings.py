@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -9,7 +10,7 @@ SECRET_KEY = "django-insecure-^1d*62&ouug%pq=l_ot^=w%sb+%idz@9r-59wdlc^gp1vo0m9(
 
 # Aplicaciones base
 BASE_APPS = [
-    'jazzmin',
+    'jazzmin', # ui
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -28,15 +29,31 @@ LOCAL_APPS = [
 THIRD_APPS = [
     'rest_framework',
     'simple_history',
-    'drf_yasg',
+    'drf_yasg', # swagger
     'corsheaders',
+    'django_filters',
+    'rest_framework_simplejwt', # jwt
+    'rest_framework_simplejwt.token_blacklist', # jwt 
 ]
 
 # Application definition
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
+# Database
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Libreria para PostgreSQL
+        'NAME': 'upworks',  # Nombre de la base de datos PostgreSQL
+        'USER': 'postgres',  # Usuario de la base de datos PostgreSQL
+        'PASSWORD': 'jorge503',  # Contraseña de usuario PostgreSQL
+        'HOST': '127.0.0.1',  # Ubicacion de la base de datos
+        'DATABASE_PORT': '5432',  # Puerto utilizado
+    }
+}
+
+
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware", # django-cors-headers
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -44,7 +61,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'simple_history.middleware.HistoryRequestMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware', # simple-history
 ]
 
 ROOT_URLCONF = "upworks.urls"
@@ -77,22 +94,25 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-LANGUAGE_CODE = "es-MX"
-
-TIME_ZONE = "America/Mexico_City"
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
-AUTH_USER_MODEL = 'users.User'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
 
 
-# Default primary key field type
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=12),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer'),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+}
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -112,25 +132,23 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
 ]
 
 
-# Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Libreria para PostgreSQL
-#         'NAME': 'upworks',  # Nombre de la base de datos PostgreSQL
-#         'USER': 'postgres',  # Usuario de la base de datos PostgreSQL
-#         'PASSWORD': '*****',  # Contraseña de usuario PostgreSQL
-#         'HOST': '127.0.0.1',  # Ubicacion de la base de datos
-#         'DATABASE_PORT': '5432',  # Puerto utilizado
-#     }
-# }
+# Internationalization
+LANGUAGE_CODE = "es-MX"
 
-# Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+TIME_ZONE = "America/Mexico_City"
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+APPEND_SLASH=False
+
+AUTH_USER_MODEL = 'users.User'
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 
 # Static files (CSS, JavaScript, Images)
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -142,14 +160,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 # Configuraón de Swagger
 SWAGGER_SETTINGS = {
    'DOC_EXPANSION': 'None',
-   'LOGIN_URL': '/admin',
+   'LOGIN_URL': '/admin/',
    'LOGOUT_URL': '/admin/logout/',
-   'DEFAULT_API_URL': 'http://laboratorios.edu.mx'
+   'DEFAULT_API_URL': 'http://upworks.uptapachula.edu.mxs'
 }
 
 

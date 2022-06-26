@@ -10,11 +10,10 @@ roles_choices = (
 )
 
 status_choices = (
-    ('registered', 'Registered'),
     ('active', 'Active'),
     ('inactive', 'Inactive'),
     ('blocked', 'Blocked'),
-    ('eliminated', 'eliminated'),
+    ('eliminated', 'Eliminated'),
 )
 
 class UserManager(BaseUserManager):
@@ -47,12 +46,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = CharField('name',max_length=100)
     photo = ImageField('photo', upload_to='users/', default='users/default.png')
     role = CharField('role', choices=roles_choices, max_length=10, blank=False, default='regular')
-    status = CharField('status', choices=status_choices, max_length=10, blank=False, default='registered')
+    status = CharField('status', choices=status_choices, max_length=10, blank=False, default='active')
     created_at = DateTimeField('created_at', auto_now=False, auto_now_add=True, editable=False)
 
     is_staff = BooleanField(default=False)
     is_superuser = BooleanField(default=False)
-    is_active = BooleanField(default=False)
 
     historical = HistoricalRecords()
     objects = UserManager()
@@ -62,7 +60,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.name
-    
+
     def has_role(self, role):
         return self.role == role
 

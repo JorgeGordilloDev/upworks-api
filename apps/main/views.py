@@ -1,5 +1,6 @@
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST
 from apps.main.serializers import *
 
 class AlumnViewSet(GenericViewSet):
@@ -20,8 +21,12 @@ class AlumnViewSet(GenericViewSet):
       }
       return Response(data)
    
-   def retrieve(self, reques, pk):
-      pass
+   def retrieve(self, reques, pk=None):
+      if self.get_object().exists():
+         data = self.get_object().get()
+         data = self.get_serializer(data)
+         return Response(data.data)
+      return Response({'message':'', 'error':'Unidad de Medida no encontrada!'}, status=HTTP_400_BAD_REQUEST)
    
    def create(self, request):
       alumn_serializer = self.serializer_class(data=request.data)

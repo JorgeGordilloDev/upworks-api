@@ -1,0 +1,11 @@
+mkdir project
+cd project
+
+python -m venv venv
+.\venv\Scripts\activate
+
+pip install djangorestframework
+django-admin startproject project .
+
+python manage.py migrate
+python manage.py runserver
