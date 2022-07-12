@@ -1,7 +1,6 @@
 from rest_framework.serializers import Serializer, ModelSerializer, CharField, ValidationError
 from rest_framework.fields import CharField
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
 from apps.users.models import User
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
