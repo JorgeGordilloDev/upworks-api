@@ -10,7 +10,7 @@ class AlumnViewSet(GenericViewSet):
       return self.get_serializer().Meta.model.objects.all()
    
    def get_object(self):
-      return self.get_serializer().Meta.model.objects.filter(id=self.kwargs['pk'])
+      return self.get_serializer().Meta.model.objects.filter(user__id=self.kwargs['pk'])
    
    def list(self, request):
       data = self.get_queryset()
