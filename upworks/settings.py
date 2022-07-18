@@ -121,7 +121,9 @@ ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
-    "http://localhost",
+    "http://localhost:8000",
+    "http://localhost:3000",
+    "https://www.thunderclient.com",
     "http://127.0.0.1",
     "http://192.168.0.254",
 ]
