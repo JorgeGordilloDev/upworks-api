@@ -10,10 +10,10 @@ roles_choices = (
 )
 
 status_choices = (
-    ('active', 'Active'),
-    ('inactive', 'Inactive'),
-    ('blocked', 'Blocked'),
-    ('eliminated', 'Eliminated'),
+    ('activo', 'Activo'),
+    ('inactivo', 'Inactivo'),
+    ('bloqueado', 'Bloqueado'),
+    ('eliminado', 'Eliminado'),
 )
 
 class UserManager(BaseUserManager):

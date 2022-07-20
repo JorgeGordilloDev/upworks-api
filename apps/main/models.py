@@ -22,6 +22,7 @@ application_status_choises = [
    ('programado para entrevistar','Programado para entrevistar'),
    ('aceptado','Aceptado'),
    ('rechazado','Rechazado'),
+   ('eliminado', 'Eliminado')
 ]
 
 class Alumn(Model):

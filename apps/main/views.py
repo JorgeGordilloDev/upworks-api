@@ -1,17 +1,19 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST
 from apps.main.serializers import *
+from rest_framework.decorators import action
+
 
 class AlumnViewSet(GenericViewSet):
    serializer_class = AlumnSerializer
 
    def get_queryset(self):
       return self.get_serializer().Meta.model.objects.all()
-   
+
    def get_object(self):
       return self.get_serializer().Meta.model.objects.filter(user__id=self.kwargs['pk'])
-   
+
    def list(self, request):
       data = self.get_queryset()
       data = self.get_serializer(data, many=True)
@@ -20,14 +22,14 @@ class AlumnViewSet(GenericViewSet):
          'data': data.data
       }
       return Response(data)
-   
+
    def retrieve(self, reques, pk=None):
       if self.get_object().exists():
          data = self.get_object().get()
          data = self.get_serializer(data)
          return Response(data.data)
-      return Response({'message':'', 'error':'Unidad de Medida no encontrada!'}, status=HTTP_400_BAD_REQUEST)
-   
+      return Response({'message':'', 'error':'Unidad de Medida no encontrada!'}, status=400)
+
    def create(self, request):
       alumn_serializer = self.serializer_class(data=request.data)
       if alumn_serializer.is_valid():
@@ -68,11 +70,15 @@ class AlumnViewSet(GenericViewSet):
          'data': None
       })
    
-   def partial_update(self, request, pk):
-      pass
-      
-   def destroy(self, request, pk):
-      pass
+   @action(detail=True, methods=['get'])
+   def apllications(self, request, pk):
+      data = Applications.objects.filter(id_alumn__user__id=pk,)
+      data = ApplicationSerializer(data, many=True)
+      data = {
+         'msg': 'OK',
+         'data': data.data
+      }
+      return Response(data)
 
 class CompanyViewSet(GenericViewSet):
    serializer_class = CompanySerializer
@@ -81,7 +87,7 @@ class CompanyViewSet(GenericViewSet):
       return self.get_serializer().Meta.model.objects.all()
    
    def get_object(self):
-      return self.get_serializer().Meta.model.objects.filter(id=self.kwargs['pk'])
+      return self.get_serializer().Meta.model.objects.filter(user__id=self.kwargs['pk'])
    
    def list(self, request):
       data = self.get_queryset()
@@ -93,7 +99,11 @@ class CompanyViewSet(GenericViewSet):
       return Response(data)
    
    def retrieve(self, reques, pk):
-      pass
+      if self.get_object().exists():
+         data = self.get_object().get()
+         data = self.get_serializer(data)
+         return Response(data.data)
+      return Response({'message':'', 'error':'Compañia no encontrada!'}, status=400)
 
    def create(self, request):
       company_serializer = self.serializer_class(data=request.data)
@@ -135,21 +145,30 @@ class CompanyViewSet(GenericViewSet):
          'data': None
       })
 
-   def partial_update(self, request, pk):
-      pass
-   
-   def destroy(self, request, pk):
-      pass
-
+   @action(detail=True, methods=['get'])
+   def jobs(self, request, pk):
+      data = Job.objects.filter(id_company__user__id=pk)
+      data = JobSerializer(data, many=True)
+      data = {
+         'msg': 'OK',
+         'data': data.data
+      }
+      return Response(data)
 
 class JobViewSet(GenericViewSet):
    serializer_class = JobSerializer
+   update_serializer_class = JobUpdateSerializer
+   model = Job   
+   queryset = None
+
+
+   def get_object(self, pk):
+      return get_object_or_404(self.model, pk=pk)
 
    def get_queryset(self):
-      return self.get_serializer().Meta.model.objects.all()
-   
-   def get_object(self):
-      return self.get_serializer().Meta.model.objects.filter(id=self.kwargs['pk'])
+      if self.queryset is None:
+         self.queryset = self.model.objects.all()
+      return self.queryset
    
    def list(self, request):
       data = self.get_queryset()
@@ -161,7 +180,13 @@ class JobViewSet(GenericViewSet):
       return Response(data)
    
    def retrieve(self, reques, pk):
-      pass
+      job = self.get_object(pk)
+      job_serializer = self.serializer_class(job)
+      data = {
+         'msg': 'OK',
+         'data': job_serializer.data
+      }
+      return Response(data, status=200)
    
    def create(self, request):
       job_serializer = self.serializer_class(data=request.data)
@@ -181,43 +206,45 @@ class JobViewSet(GenericViewSet):
       Response(data)
 
    def update(self, request, pk):
-      if not self.get_object().exists():
-         return Response({
-            'status': 404,
-             'message': 'No se encontro el elemento solicitado',
-             'data': None
-         })
-      
-      job_serializer = self.serializer_class(instance=self.get_object().get(), data=request.data)
+      job = self.get_object(pk=pk)
+      job_serializer = self.update_serializer_class(job, data=request.data)
+
       if job_serializer.is_valid():
          job_serializer.save()
          return Response({
             'status': 200,
-            'message': 'Registro actualizado correctamente',
+            'message': 'Empleo actualizado correctamente',
             'data': job_serializer.data
-         })
-      
+         }, status=200)
+
       return Response({
          'status': 400,
          'message': 'Se produjo un error al actualizar los datos',
          'data': None
-      })
-
-   def partial_update(self, request, pk):
-      pass
+      }, status=400)
    
    def destroy(self, request, pk):
-      pass
+      job = self.get_object(pk=pk)
+      job.status = 'eliminado'
+      job.save()
+      return Response({
+         'message': 'Empleo eliminado correctamente'
+      })
 
 class ApplicationViewSet(GenericViewSet):
    serializer_class = ApplicationSerializer
+   update_serializer_class = ApplicationUpdateSerializer
+   model = Applications
+   queryset = None
+   
+   def get_object(self, pk):
+      return get_object_or_404(self.model, pk=pk)
 
    def get_queryset(self):
-      return self.get_serializer().Meta.model.objects.all()
-   
-   def get_object(self):
-      return self.get_serializer().Meta.model.objects.filter(id=self.kwargs['pk'])
-   
+      if self.queryset is None:
+         self.queryset = self.model.objects.all()
+      return self.queryset
+
    def list(self, request):
       data = self.get_queryset()
       data = self.get_serializer(data, many=True)
@@ -226,10 +253,16 @@ class ApplicationViewSet(GenericViewSet):
          'data': data.data
       }
       return Response(data)
-   
+
    def retrieve(self, reques, pk):
-      pass
-   
+      application = self.get_object(pk)
+      application_serializer = self.serializer_class(application)
+      data = {
+         'msg': 'OK',
+         'data': application_serializer.data
+      }
+      return Response(data, status=200)
+
    def create(self, request):
       application_serializer = self.serializer_class(data=request.data)
       if application_serializer.is_valid():
@@ -248,30 +281,27 @@ class ApplicationViewSet(GenericViewSet):
       Response(data)
 
    def update(self, request, pk):
-      if not self.get_object().exists():
-         return Response({
-            'status': 404,
-             'message': 'No se encontro el elemento solicitado',
-             'data': None
-         })
-      
-      application_serializer = self.serializer_class(instance=self.get_object().get(), data=request.data)
+      application = self.get_object(pk=pk)
+      application_serializer = self.update_serializer_class(application, data=request.data)
+
       if application_serializer.is_valid():
          application_serializer.save()
          return Response({
             'status': 200,
-            'message': 'Registro actualizado correctamente',
+            'message': 'Usuario actualizado correctamente',
             'data': application_serializer.data
-         })
-      
+         }, status=200)
+
       return Response({
          'status': 400,
          'message': 'Se produjo un error al actualizar los datos',
          'data': None
-      })
-   
-   def partial_update(self, request, pk):
-      pass
+      }, status=400)
    
    def destroy(self, request, pk):
-      pass
+      application = self.get_object(pk=pk)
+      application.status = 'eliminado'
+      application.save()
+      return Response({
+         'message': 'Postulacin eliminada correctamente'
+      })
