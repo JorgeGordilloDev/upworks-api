@@ -87,7 +87,7 @@ class Applications(Model):
    id_alumn = ForeignKey(Alumn, on_delete=CASCADE, verbose_name='Alumno')
    status = CharField(max_length=30, choices=application_status_choises, default='postulado', verbose_name='Estado')
    message = TextField(null=True, blank=True, verbose_name='Mensaje')
-   interview_date = DateTimeField(verbose_name='Fecha para entrevista')
+   interview_date = DateTimeField(verbose_name='Fecha para entrevista', null=True, blank=True, default=None)
    created_at = DateTimeField(auto_now_add=True, auto_now=False, verbose_name='Fecha de creación')
    updated_at = DateTimeField(auto_now_add=False, auto_now=True, verbose_name='Fecha de modificaón')
 

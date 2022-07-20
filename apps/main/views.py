@@ -197,13 +197,13 @@ class JobViewSet(GenericViewSet):
             'message': 'Registro creado correctamente',
             'data': job_serializer.data
          }
-         Response(data)
+         return Response(data)
       data = {
          'status': 400,
          'message': 'Se produjo un error al crear el registro',
          'data': None
       }
-      Response(data)
+      return Response(data)
 
    def update(self, request, pk):
       job = self.get_object(pk=pk)
@@ -230,6 +230,16 @@ class JobViewSet(GenericViewSet):
       return Response({
          'message': 'Empleo eliminado correctamente'
       })
+   
+   @action(detail=True, methods=['get'])
+   def apllications(self, request, pk):
+      data = Applications.objects.filter(id_job=pk)
+      data = ApplicationSerializer(data, many=True)
+      data = {
+         'msg': 'OK',
+         'data': data.data
+      }
+      return Response(data)
 
 class ApplicationViewSet(GenericViewSet):
    serializer_class = ApplicationSerializer
@@ -272,13 +282,14 @@ class ApplicationViewSet(GenericViewSet):
             'message': 'Registro creado correctamente',
             'data': application_serializer.data
          }
-         Response(data)
+         return Response(data)
       data = {
          'status': 400,
          'message': 'Se produjo un error al crear el registro',
+         'erros': application_serializer.errors,
          'data': None
       }
-      Response(data)
+      return Response(data)
 
    def update(self, request, pk):
       application = self.get_object(pk=pk)
@@ -303,5 +314,5 @@ class ApplicationViewSet(GenericViewSet):
       application.status = 'eliminado'
       application.save()
       return Response({
-         'message': 'Postulacin eliminada correctamente'
+         'message': 'Postulacion eliminada correctamente'
       })
