@@ -10,7 +10,7 @@ SECRET_KEY = "django-insecure-^1d*62&ouug%pq=l_ot^=w%sb+%idz@9r-59wdlc^gp1vo0m9(
 
 # Aplicaciones base
 BASE_APPS = [
-    'jazzmin', # ui
+    'jazzmin',  # ui
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -29,11 +29,11 @@ LOCAL_APPS = [
 THIRD_APPS = [
     'rest_framework',
     'simple_history',
-    'drf_yasg', # swagger
+    'drf_yasg',  # swagger
     'corsheaders',
     'django_filters',
-    'rest_framework_simplejwt', # jwt
-    'rest_framework_simplejwt.token_blacklist', # jwt 
+    'rest_framework_simplejwt',  # jwt
+    'rest_framework_simplejwt.token_blacklist',  # jwt
 ]
 
 # Application definition
@@ -42,18 +42,24 @@ INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Libreria para PostgreSQL
-        'NAME': 'upworks',  # Nombre de la base de datos PostgreSQL
-        'USER': 'postgres',  # Usuario de la base de datos PostgreSQL
-        'PASSWORD': 'jorge503',  # Contraseña de usuario PostgreSQL
-        'HOST': '127.0.0.1',  # Ubicacion de la base de datos
-        'DATABASE_PORT': '5432',  # Puerto utilizado
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Libreria para PostgreSQL
+#         'NAME': 'upworks',  # Nombre de la base de datos PostgreSQL
+#         'USER': 'postgres',  # Usuario de la base de datos PostgreSQL
+#         'PASSWORD': 'jorge503',  # Contraseña de usuario PostgreSQL
+#         'HOST': '127.0.0.1',  # Ubicacion de la base de datos
+#         'DATABASE_PORT': '5432',  # Puerto utilizado
+#     }
+# }
 
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware", # django-cors-headers
+    "corsheaders.middleware.CorsMiddleware",  # django-cors-headers
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -61,7 +67,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'simple_history.middleware.HistoryRequestMiddleware', # simple-history
+    'simple_history.middleware.HistoryRequestMiddleware',  # simple-history
 ]
 
 ROOT_URLCONF = "upworks.urls"
@@ -87,10 +93,10 @@ WSGI_APPLICATION = "upworks.wsgi.application"
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    { "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",},
-    { "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", },
-    { "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", },
-    { "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator", },
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", },
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", },
 ]
 
 
@@ -145,7 +151,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-APPEND_SLASH=False
+APPEND_SLASH = False
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -166,10 +172,10 @@ STATICFILES_DIRS = (
 
 # Configuraón de Swagger
 SWAGGER_SETTINGS = {
-   'DOC_EXPANSION': 'None',
-   'LOGIN_URL': '/admin/',
-   'LOGOUT_URL': '/admin/logout/',
-   'DEFAULT_API_URL': 'http://upworks.uptapachula.edu.mxs'
+    'DOC_EXPANSION': 'None',
+    'LOGIN_URL': '/admin/',
+    'LOGOUT_URL': '/admin/logout/',
+    'DEFAULT_API_URL': 'http://upworks.uptapachula.edu.mxs'
 }
 
 
@@ -208,7 +214,8 @@ JAZZMIN_SETTINGS = {
     "topmenu_links": [
 
         # Url that gets reversed (Permissions can be added)
-        {"name": "Inicio",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Inicio",  "url": "admin:index",
+            "permissions": ["auth.view_user"]},
 
         {"name": "Ver sitio", "url": "/", "new_window": True},
 
@@ -243,8 +250,8 @@ JAZZMIN_SETTINGS = {
     # Custom links to append to app groups, keyed on app name
     # "custom_links": {
     #     "alumn": [{
-    #         "name": "Make Messages", 
-    #         "url": "https://google.com", 
+    #         "name": "Make Messages",
+    #         "url": "https://google.com",
     #         "icon": "fas fa-comments",
     #     }]
     # },
@@ -307,4 +314,3 @@ JAZZMIN_UI_TWEAKS = {
     },
     "actions_sticky_top": True
 }
-
