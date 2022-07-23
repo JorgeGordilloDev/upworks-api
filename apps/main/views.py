@@ -74,7 +74,7 @@ class AlumnViewSet(GenericViewSet):
 
     @action(detail=True, methods=['get'])
     def apllications(self, request, pk):
-        data = Applications.objects.filter(id_alumn__user__id=pk,)
+        data = Applications.objects.filter(id_alumn__user__id=pk,).exclude(status='eliminado')
         data = ApplicationSerializer(data, many=True)
         data = {
             'msg': 'OK',
@@ -151,7 +151,7 @@ class CompanyViewSet(GenericViewSet):
 
     @action(detail=True, methods=['get'])
     def jobs(self, request, pk):
-        data = Job.objects.filter(id_company__user__id=pk)
+        data = Job.objects.filter(id_company__user__id=pk).exclude(status='eliminado')
         data = JobSerializer(data, many=True)
         data = {
             'msg': 'OK',
@@ -171,7 +171,7 @@ class JobViewSet(GenericViewSet):
 
     def get_queryset(self):
         if self.queryset is None:
-            self.queryset = self.model.objects.all()
+            self.queryset = self.model.objects.exclude(status='eliminado')
         return self.queryset
 
     def list(self, request):
@@ -237,7 +237,7 @@ class JobViewSet(GenericViewSet):
 
     @action(detail=True, methods=['get'])
     def apllications(self, request, pk):
-        data = Applications.objects.filter(id_job=pk)
+        data = Applications.objects.filter(id_job=pk).exclude(status='eliminado')
         data = ApplicationSerializer(data, many=True)
         data = {
             'msg': 'OK',
@@ -257,7 +257,7 @@ class ApplicationViewSet(GenericViewSet):
 
     def get_queryset(self):
         if self.queryset is None:
-            self.queryset = self.model.objects.all()
+            self.queryset = self.model.objects.exclude(status='eliminado')
         return self.queryset
 
     def list(self, request):
