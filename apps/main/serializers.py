@@ -18,6 +18,25 @@ class JobSerializer(ModelSerializer):
    class Meta:
       model = Job
       fields = '__all__'
+   
+   def to_representation(self, instance):
+      return {
+         "title": instance.title,
+         "workplace": instance.workplace,
+         "ubication": instance.ubication,
+         "job_type": instance.job_type,
+         "description": instance.description,
+         "salary": instance.salary,
+         "status": instance.status,
+         "created_at": instance.created_at,
+         "updated_at": instance.updated_at,
+         "company": {
+            "id": instance.id_company.id,
+            "name": instance.id_company.user.name,
+            "photo": instance.id_company.user.photo.url,
+         }
+      }
+   
 
 class JobUpdateSerializer(ModelSerializer):
    class Meta:

@@ -7,12 +7,13 @@ from rest_framework.decorators import action
 
 class AlumnViewSet(GenericViewSet):
     serializer_class = AlumnSerializer
+    model = Alumn
 
     def get_queryset(self):
-        return self.get_serializer().Meta.model.objects.all()
+        return self.model.objects.filter(user__status='activo')
 
     def get_object(self):
-        return self.get_serializer().Meta.model.objects.filter(user__id=self.kwargs['pk'])
+        return self.model.objects.filter(user__id=self.kwargs['pk'])
 
     def list(self, request):
         data = self.get_queryset()
