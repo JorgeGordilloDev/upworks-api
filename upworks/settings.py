@@ -47,16 +47,16 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Libreria para PostgreSQL
-#         'NAME': 'upworks',  # Nombre de la base de datos PostgreSQL
-#         'USER': 'postgres',  # Usuario de la base de datos PostgreSQL
-#         'PASSWORD': 'jorge503',  # Contraseña de usuario PostgreSQL
-#         'HOST': '127.0.0.1',  # Ubicacion de la base de datos
-#         'DATABASE_PORT': '5432',  # Puerto utilizado
-#     }
-# }
+DATABASES = {
+     'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Libreria para PostgreSQL
+         'NAME': 'upworks',  # Nombre de la base de datos PostgreSQL
+         'USER': 'postgres',  # Usuario de la base de datos PostgreSQL
+         'PASSWORD': '1234',  # Contraseña de usuario PostgreSQL
+         'HOST': '127.0.0.1',  # Ubicacion de la base de datos
+         'DATABASE_PORT': '5432',  # Puerto utilizado
+     }
+ }
 
 
 MIDDLEWARE = [
@@ -130,6 +130,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:8000",
     "http://localhost:3000",
+    "http://localhost:80",
     "https://www.thunderclient.com",
     "http://127.0.0.1",
     "http://192.168.0.254",
