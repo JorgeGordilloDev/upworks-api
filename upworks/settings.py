@@ -1,6 +1,11 @@
 import os
 from pathlib import Path
 from datetime import timedelta
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+import django_heroku
+
+django_heroku.settings(locals())
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,6 +51,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+DATABASES['default'].update(db_from_env)
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Libreria para PostgreSQL
@@ -133,10 +140,14 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1",
     "http://192.168.0.254",
     "http://192.168.0.254:3000",
+    "http://172.16.10.44",
+    "https://jorgegordillodev.github.io"
 ]
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
     "192.168.0.254:3000",
+    "172.16.10.44",
+    "jorgegordillodev.github.io"
 ]
 
 
@@ -162,12 +173,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfile')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
+STATICFILES_DIRS = (  
     os.path.join(BASE_DIR, 'static'),
 )
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 # Configuraón de Swagger

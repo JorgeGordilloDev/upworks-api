@@ -1,7 +1,8 @@
 import os
-
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'upworks.settings')
 
 application = get_wsgi_application()
+import whitenoise
+application = whitenoise.WhiteNoise(application)
