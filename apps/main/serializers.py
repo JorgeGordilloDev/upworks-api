@@ -70,7 +70,8 @@ class ApplicationSerializer(ModelSerializer):
             "alumn": {
                 'id': instance.id_alumn.id,
                 'name': instance.id_alumn.user.name,
-                'photo': instance.id_alumn.user.photo.url
+                'photo': instance.id_alumn.user.photo.url,
+                'cv': instance.id_alumn.cv.url
             }
         }
 

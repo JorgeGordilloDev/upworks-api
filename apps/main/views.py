@@ -161,6 +161,17 @@ class CompanyViewSet(GenericViewSet):
         }
         return Response(data)
 
+    @action(detail=True, methods=['get'])
+    def applications(self, request, pk):
+        data = Applications.objects.filter(
+            id_job__id_company__user__id=pk).exclude(status='eliminado')
+        data = ApplicationSerializer(data, many=True)
+        data = {
+            'msg': 'OK',
+            'data': data.data
+        }
+        return Response(data, status=200)
+
 
 class JobViewSet(GenericViewSet):
     serializer_class = JobSerializer
