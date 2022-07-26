@@ -22,6 +22,7 @@ class JobSerializer(ModelSerializer):
 
     def to_representation(self, instance):
         return {
+            "id": instance.id,
             "title": instance.title,
             "workplace": instance.workplace,
             "ubication": instance.ubication,

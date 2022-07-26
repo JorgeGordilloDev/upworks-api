@@ -290,14 +290,14 @@ class ApplicationViewSet(GenericViewSet):
                 'message': 'Registro creado correctamente',
                 'data': application_serializer.data
             }
-            return Response(data)
+            return Response(data, status=201)
         data = {
             'status': 400,
             'message': 'Se produjo un error al crear el registro',
             'erros': application_serializer.errors,
             'data': None
         }
-        return Response(data)
+        return Response(data, status=400)
 
     def update(self, request, pk):
         application = self.get_object(pk=pk)
