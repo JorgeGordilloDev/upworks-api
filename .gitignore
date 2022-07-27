@@ -1,6 +1,7 @@
 # dependencies
 /.venv
 /venv
+/staticfiles
 
 # testing
 /coverage
