@@ -57,7 +57,7 @@ class ApplicationSerializer(ModelSerializer):
             "id": instance.id,
             "status": instance.status,
             "message": instance.message,
-            "interview_date": instance.interview_date,
+            'interview_date': instance.interview_date if instance.interview_date == None else instance.interview_date.strftime("%Y-%m-%d %H:%M"),
             "created_at": instance.created_at,
             "updated_at": instance.updated_at,
             "job": {
