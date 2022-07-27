@@ -134,10 +134,13 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1",
     "http://192.168.0.254",
     "http://192.168.0.254:3000",
+    "https://upworks.vercel.app",
+    "https://upworks.netlify.app",
 ]
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
-    "192.168.0.254:3000",
+    "upworks.vercel.app",
+    "upworks.netlify.app",
 ]
 
 
