@@ -312,14 +312,13 @@ class ApplicationViewSet(GenericViewSet):
 
     def update(self, request, pk):
         application = self.get_object(pk=pk)
-        application_serializer = self.update_serializer_class(
-            application, data=request.data)
+        application_serializer = self.update_serializer_class(application, data=request.data)
 
         if application_serializer.is_valid():
             application_serializer.save()
             return Response({
                 'status': 200,
-                'message': 'Usuario actualizado correctamente',
+                'message': 'Postulación actualizada correctamente',
                 'data': application_serializer.data
             }, status=200)
 

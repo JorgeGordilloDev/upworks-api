@@ -79,5 +79,4 @@ class ApplicationSerializer(ModelSerializer):
 class ApplicationUpdateSerializer(ModelSerializer):
     class Meta:
         model = Applications
-        fields = ['id_job', 'id_alumn', 'status',
-                  'message', 'interview_date', ]
+        fields = ['status','message', 'interview_date', ]
