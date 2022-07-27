@@ -47,16 +47,16 @@ DATABASES = {
     }
 }
 
-DATABASES = {
-     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Libreria para PostgreSQL
-         'NAME': 'upworks',  # Nombre de la base de datos PostgreSQL
-         'USER': 'postgres',  # Usuario de la base de datos PostgreSQL
-         'PASSWORD': '1234',  # Contraseña de usuario PostgreSQL
-         'HOST': '127.0.0.1',  # Ubicacion de la base de datos
-         'DATABASE_PORT': '5432',  # Puerto utilizado
-     }
- }
+# DATABASES = {
+#     'default': {
+#     'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Libreria para PostgreSQL
+#         'NAME': 'upwor¾ks',  # Nombre de la base de datos PostgreSQL
+#         'USER': 'postgres',  # Usuario de la base de datos PostgreSQL
+#         'PASSWORD': '1234',  # Contraseña de usuario PostgreSQL
+#         'HOST': '127.0.0.1',  # Ubicacion de la base de datos
+#         'DATABASE_PORT': '5432',  # Puerto utilizado
+#     }
+# }
 
 
 MIDDLEWARE = [
@@ -130,7 +130,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:8000",
     "http://localhost:3000",
-    "http://localhost:80",
+    "http://localhost",
     "https://www.thunderclient.com",
     "http://127.0.0.1",
     "http://192.168.0.254",
@@ -142,6 +142,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOWED_ORIGIN_REGEXES = [
     "upworks.vercel.app",
     "upworks.netlify.app",
+    "localhost",
 ]
 
 
@@ -165,10 +166,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Static files (CSS, JavaScript, Images)
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/media/"
+MEDIA_URL = "media/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),

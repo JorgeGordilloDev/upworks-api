@@ -214,13 +214,13 @@ class JobViewSet(GenericViewSet):
                 'message': 'Registro creado correctamente',
                 'data': job_serializer.data
             }
-            return Response(data)
+            return Response(data, status=201)
         data = {
             'status': 400,
             'message': 'Se produjo un error al crear el registro',
             'data': None
         }
-        return Response(data)
+        return Response(data, status=400)
 
     def update(self, request, pk):
         job = self.get_object(pk=pk)
